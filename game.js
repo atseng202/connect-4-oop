@@ -22,6 +22,15 @@ class Game {
     this.makeHtmlBoard();
   }
 
+  /* startGame: starts or restarts a new game of C4 
+   * board state should be reset, HTML reset, currPlayer back to 1
+   */
+  startGame() {
+    this.board = this.makeBoard();
+    this.currPlayer = 1;
+    this.makeHtmlBoard();
+  }
+
   /** makeBoard: create in-JS board structure:
    *   board = array of rows, each row is array of cells  (board[y][x])
    */

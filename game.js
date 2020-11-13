@@ -15,22 +15,42 @@ class Game {
   constructor(width = 7, height = 6) {
     this.width = width;
     this.height = height;
+    this.gameIsOver = false;
+    // Bind event listeners to game instance
+    this.handleClick = this.handleClick.bind(this);
+    this.startGame = this.startGame.bind(this);
+    // Add start game event listener
+    let newGameButton = document.querySelector("#start");
+    newGameButton.addEventListener("click", this.startGame);
+
     this.board = this.makeBoard();
     this.currPlayer = 1;
-
     // make html board
     this.makeHtmlBoard();
   }
 
-  /* startGame: starts or restarts a new game of C4 
+  /* startGame: starts or restarts a new game of C4
    * board state should be reset, HTML reset, currPlayer back to 1
    */
   startGame() {
     this.board = this.makeBoard();
     this.currPlayer = 1;
+    this.clearHTMLBoard();
     this.makeHtmlBoard();
+    this.gameIsOver = false;
   }
 
+  /** clearHTMLBoard: remove HTML for current board,
+     * create new blank HTML board.
+     */
+  clearHTMLBoard() {
+    let boardElement = document.querySelector("#board");
+    boardElement.remove();
+    boardElement = document.createElement("table");
+    boardElement.setAttribute("id", "board");
+    let game = document.querySelector("#game");
+    game.append(boardElement);
+  }
   /** makeBoard: create in-JS board structure:
    *   board = array of rows, each row is array of cells  (board[y][x])
    */
@@ -100,12 +120,14 @@ class Game {
   /** endGame: announce game end */
 
   endGame(msg) {
+    this.gameIsOver = true;
     alert(msg);
   }
 
   /** handleClick: handle click of column top to play piece */
 
-  handleClick = evt => {
+  handleClick(evt) {
+    if (this.gameIsOver) return;
     // get x from ID of clicked cell
     const x = +evt.target.id;
 

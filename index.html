@@ -7,17 +7,20 @@
 </head>
 
 <body>
-  <form id="colorForm">
-    <label for="color1">Player 1 Color:</label>
-    <input id="color1" name="color1" type="text" value="#EE5622">
-    <label for="color2">Player 2 Color:</label>
-    <input id="color2" name="color2" type="text" value="#4D5382">
-    <button id="start">Start Game</button>
-  </form>
-  <div id="game">
-    <table id="board"></table>
-  </div>
+  <div id="content">
+    <h1>Connect Four!</h1>
+    <form id="colorForm">
+      <label for="color1">Player 1 Color:</label>
+      <input id="color1" name="color1" type="text" value="#EE5622">
 
+      <br><label for="color2">Player 2 Color:</label>
+      <input id="color2" name="color2" type="text" value="#4D5382">
+      <br><button id="start">Start Game</button>
+    </form>
+    <div id="game">
+      <table id="board"></table>
+    </div>
+  </div>
   <script src="game.js"></script>
 
 </body>

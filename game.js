@@ -12,7 +12,7 @@ class Game {
    * sets height and width of board and creates the board
    * also sets initial player to 1
    */
-  constructor(width = 7, height = 6, player1, player2) {
+  constructor(width = 7, height = 6) {
     this.width = width;
     this.height = height;
     this.gameIsOver = false;
@@ -22,12 +22,6 @@ class Game {
     // Add start game event listener
     let newGameButton = document.querySelector("#start");
     newGameButton.addEventListener("click", this.startGame);
-
-    // this.currPlayer = this.player1;
-
-    // this.board = this.makeBoard();
-    // // make html board
-    // this.makeHtmlBoard();
   }
 
   /* startGame: starts or restarts a new game of C4
@@ -117,9 +111,8 @@ class Game {
     const piece = document.createElement("div");
     piece.classList.add("piece");
     piece.classList.add(`p${this.currPlayer.name}`);
-    // piece.setAttribute("background", this.currPlayer.color);
     piece.style.background = this.currPlayer.color;
-    piece.style.top = -50 * (y + 2);
+
 
     const spot = document.getElementById(`${y}-${x}`);
     spot.append(piece);
@@ -129,7 +122,9 @@ class Game {
 
   endGame(msg) {
     this.gameIsOver = true;
-    alert(msg);
+    document.getElementsByTagName("h1")[0].innerText = `${msg}`;
+    setTimeout(function () { alert(msg); }, 1000);
+
   }
 
   /** handleClick: handle click of column top to play piece */
@@ -230,13 +225,6 @@ class Player {
     this.color = colorName;
     this.name = name;
   }
-
 }
-// .red {
-//   background: rgba(114, 0, 38, 1);
-// }
-// .blue {
-//   background:rgba(44, 73, 127, 1);
-// }
 
-const connect4Game = new Game(6, 7);
+const connect4Game = new Game();

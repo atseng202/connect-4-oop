@@ -12,7 +12,7 @@ class Game {
    * sets height and width of board and creates the board
    * also sets initial player to 1
    */
-  constructor(width = 7, height = 6) {
+  constructor(width = 7, height = 6, player1, player2) {
     this.width = width;
     this.height = height;
     this.gameIsOver = false;
@@ -23,21 +23,27 @@ class Game {
     let newGameButton = document.querySelector("#start");
     newGameButton.addEventListener("click", this.startGame);
 
-    this.board = this.makeBoard();
-    this.currPlayer = 1;
-    // make html board
-    this.makeHtmlBoard();
+    // this.currPlayer = this.player1;
+
+    // this.board = this.makeBoard();
+    // // make html board
+    // this.makeHtmlBoard();
   }
 
   /* startGame: starts or restarts a new game of C4
    * board state should be reset, HTML reset, currPlayer back to 1
    */
-  startGame() {
+  startGame(evt) {
+    evt.preventDefault()
+    this.gameIsOver = false;
+    let color1 = document.querySelector("#color1").value;
+    let color2 = document.querySelector("#color2").value;
+    this.player1 = new Player(color1, "Player1");
+    this.player2 = new Player(color2, "Player2");
+    this.currPlayer = this.player1;
     this.board = this.makeBoard();
-    this.currPlayer = 1;
     this.clearHTMLBoard();
     this.makeHtmlBoard();
-    this.gameIsOver = false;
   }
 
   /** clearHTMLBoard: remove HTML for current board,
@@ -110,7 +116,9 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement("div");
     piece.classList.add("piece");
-    piece.classList.add(`p${this.currPlayer}`);
+    piece.classList.add(`p${this.currPlayer.name}`);
+    // piece.setAttribute("background", this.currPlayer.color);
+    piece.style.background = this.currPlayer.color;
     piece.style.top = -50 * (y + 2);
 
     const spot = document.getElementById(`${y}-${x}`);
@@ -138,12 +146,12 @@ class Game {
     }
 
     // place piece in board and add to HTML table
-    this.board[y][x] = this.currPlayer;
+    this.board[y][x] = this.currPlayer.name;
     this.placeInTable(y, x);
 
     // check for win
     if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer.name} won!`);
     }
 
     // check for tie
@@ -152,7 +160,7 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    this.currPlayer = this.currPlayer === this.player1 ? this.player2 : this.player1;
   };
 
   // Check four cells to see if they're all color of current player
@@ -165,7 +173,7 @@ class Game {
         y < this.height &&
         x >= 0 &&
         x < this.width &&
-        this.board[y][x] === this.currPlayer
+        this.board[y][x] === this.currPlayer.name
     );
   }
 
@@ -209,5 +217,26 @@ class Game {
     }
   }
 }
+
+/** Connect Four
+ *
+ * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
+ * column until a player gets four-in-a-row (horiz, vert, or diag) or until
+ * board fills (tie)
+ */
+
+class Player {
+  constructor(colorName, name) {
+    this.color = colorName;
+    this.name = name;
+  }
+
+}
+// .red {
+//   background: rgba(114, 0, 38, 1);
+// }
+// .blue {
+//   background:rgba(44, 73, 127, 1);
+// }
 
 const connect4Game = new Game(6, 7);

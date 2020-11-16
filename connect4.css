@@ -33,7 +33,7 @@ label{
 #board td {
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  outline: solid 1px #666;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -63,7 +63,7 @@ label{
 #column-top td {
   border: dashed 1px rgba(44, 73, 127, 1);
   border-radius: 50%;
-
+  outline: none;
 }
 
 #column-top td:hover {
